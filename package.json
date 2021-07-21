@@ -1,0 +1,36 @@
+{
+    "name": "ukrenthomehunter",
+    "version": "1.0.0",
+    "description": "",
+    "main": "build/index.js",
+    "scripts": {
+        "dev": "vxbuildtools watch service",
+        "build": "npm run cleanBuild && npm run build:server",
+        "build:server": "vxbuildtools build service --copy-node-modules",
+        "cleanBuild": "rm -rf ./build/*",
+        "lint": "npm run lint:ts && npm run lint:es",
+        "lint:ts": "tsc --noEmit",
+        "lint:es": "eslint --cache --ext .js,.ts ./src"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/VeXell/UKRentHomeHunter.git"
+    },
+    "author": "vexell@gmail.com",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/VeXell/UKRentHomeHunter/issues"
+    },
+    "homepage": "https://github.com/VeXell/UKRentHomeHunter#readme",
+    "dependencies": {
+        "axios": "^0.21.1",
+        "dotenv": "^10.0.0",
+        "firebase-admin": "^9.10.0",
+        "moment": "^2.29.1",
+        "telegraf": "^4.4.0",
+        "telegraf-i18n": "^6.6.0"
+    },
+    "devDependencies": {
+        "vxbuildtools": "git+https://git@github.com/VeXell/build-tools.git"
+    }
+}
