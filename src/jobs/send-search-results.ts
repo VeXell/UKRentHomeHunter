@@ -70,7 +70,7 @@ async function processResults(
 
             for (const searchId of searches) {
                 const searchResults = allSearchResults[chatId][searchId].searchResults;
-                const lastNotification = allSearchResults[chatId][searchId].lastNotificationAt;
+                /* const lastNotification = allSearchResults[chatId][searchId].lastNotificationAt;
 
                 if (lastNotification) {
                     const lastNotificationDuration = moment.duration(now.diff(lastNotification));
@@ -83,7 +83,7 @@ async function processResults(
                         );
                         continue;
                     }
-                }
+                } */
 
                 // Send data to messenger
 
