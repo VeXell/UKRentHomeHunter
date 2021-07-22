@@ -147,6 +147,10 @@ async function sendResults(
                                 `Someting wrong with data in ${chatId}/${searchId}/${propertyKey}`
                             );
 
+                            try {
+                                await telegramBot.telegram.sendPhoto(chatId, media[0].media);
+                            } catch (errorSendPhoto) {}
+
                             // Repeat send without photos
                             try {
                                 await telegramBot.telegram.sendMessage(chatId, message.text, {
