@@ -146,26 +146,45 @@ async function sendResults(
                             console.error(
                                 `Someting wrong with data in ${chatId}/${searchId}/${propertyKey}`
                             );
+
+                            // Repeat send without photos
+                            try {
+                                await telegramBot.telegram.sendMessage(chatId, message.text, {
+                                    parse_mode: 'Markdown',
+                                    reply_markup: {
+                                        inline_keyboard: [
+                                            [Markup.button.url('↗️ Open', searchResult.openUrl)],
+                                        ],
+                                    },
+                                });
+                                submitted = true;
+                            } catch (error) {
+                                console.error(error);
+                            }
                         } else {
                             // Chat not found
                         }
-                    }
-
-                    if (error.response?.error_code === 403) {
+                    } else if (error.response?.error_code === 403) {
                         // Chat has been blocked
                         await removeSearch(chatId, searchId);
                         await removeSearchResults(chatId, searchId);
 
                         break;
+                    } else if (error.response?.error_code === 429) {
+                        // Many request. Stop executing
+                        break;
+                    } else {
+                        console.error(error);
                     }
-
-                    console.error(error);
                 }
 
                 if (submitted) {
                     await setPropertyIsSubmitted(chatId, searchId, searchResult);
                     await setLastNotification(chatId, searchId, moment().utc().format());
                 }
+
+                // Add 1 sec delay
+                await new Promise((resolve) => setTimeout(resolve, 1500));
             }
         }
     }
