@@ -123,7 +123,7 @@ async function sendResults(
                 console.log(`Send mesasge to chat ${chatId}/${searchId} in area ${area}`);
 
                 const message = formatTgMessage(area, searchResult);
-                const media = message.media.slice(0, 9);
+                const media = message.media.slice(0, 10);
 
                 let submitted = false;
 
@@ -132,6 +132,7 @@ async function sendResults(
                         await telegramBot.telegram.sendMediaGroup(chatId, media);
                     }
 
+                    await new Promise((resolve) => setTimeout(resolve, 500));
                     await telegramBot.telegram.sendMessage(chatId, message.text, {
                         parse_mode: 'Markdown',
                         reply_markup: {
@@ -187,8 +188,8 @@ async function sendResults(
                     await setLastNotification(chatId, searchId, moment().utc().format());
                 }
 
-                // Add 1 sec delay
-                await new Promise((resolve) => setTimeout(resolve, 1500));
+                // Add 2 sec delay
+                await new Promise((resolve) => setTimeout(resolve, 2500));
             }
         }
     }
