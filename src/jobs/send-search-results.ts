@@ -13,7 +13,7 @@ import {
     removeSearchResults,
 } from 'services/db/search-results';
 
-const MIN_MINUTES_TO_SEND_DATA = 5;
+// const MIN_MINUTES_TO_SEND_DATA = 5;
 
 let telegramBot: Telegraf<TelegrafContext> | undefined;
 
@@ -63,7 +63,7 @@ async function processResults(
 
     if (allSearchResults) {
         const chats = Object.keys(allSearchResults);
-        const now = moment().utc();
+        // const now = moment().utc();
 
         for (const chatId of chats) {
             const searches = Object.keys(allSearchResults[chatId]);
@@ -123,7 +123,7 @@ async function sendResults(
                 console.log(`Send mesasge to chat ${chatId}/${searchId} in area ${area}`);
 
                 const message = formatTgMessage(area, searchResult);
-                const media = message.media.slice(0, 10);
+                const media = message.media.slice(0, 9);
 
                 let submitted = false;
 
@@ -141,23 +141,30 @@ async function sendResults(
                     submitted = true;
                 } catch (error) {
                     if (error.response?.error_code === 400) {
-                        // Chat not found
+                        if (error.response?.description === 'Bad Request: group send failed') {
+                            // Something wrong with images
+                            console.error(
+                                `Someting wrong with data in ${chatId}/${searchId}/${propertyKey}`
+                            );
+                        } else {
+                            // Chat not found
+                        }
                     }
 
                     if (error.response?.error_code === 403) {
                         // Chat has been blocked
                         await removeSearch(chatId, searchId);
                         await removeSearchResults(chatId, searchId);
+
+                        break;
                     }
 
                     console.error(error);
-                    break;
                 }
 
                 if (submitted) {
-                    setPropertyIsSubmitted(chatId, searchId, searchResult);
-                    setLastNotification(chatId, searchId, moment().utc().format());
-                    break;
+                    await setPropertyIsSubmitted(chatId, searchId, searchResult);
+                    await setLastNotification(chatId, searchId, moment().utc().format());
                 }
             }
         }
