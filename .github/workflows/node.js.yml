@@ -40,4 +40,4 @@ jobs:
         host: ${{ secrets.UKRENTBOT_DEPLOY_HOST }}
         username: ${{ secrets.UKRENTBOT_DEPLOY_USER }}
         key: ${{ secrets.UKRENTBOT_DEPLOY_KEY }}
-        script: pm2 startOrGracefulReload ${{ secrets.UKRENTBOT_DEPLOY_PATH }}/pm2.config.js 2>&1
+        script: pm2 startOrRestart ${{ secrets.UKRENTBOT_DEPLOY_PATH }}/pm2.config.js 2>&1
