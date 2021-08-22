@@ -1,11 +1,8 @@
 import './env';
 import { Telegraf, session } from 'telegraf';
-import TelegrafI18n from 'telegraf-i18n';
+import i18n from 'i18n';
 import { TelegrafContext } from 'types';
 import { DATABASE, FIREBASE_AUTH, BOT_TOKEN } from 'config';
-
-import enLocale from './locales/en';
-import ruLocale from './locales/ru';
 
 import { initActions } from 'actions';
 import { initWizards } from 'wizards';
@@ -13,16 +10,6 @@ import { initJobs } from 'jobs';
 import { initDatabase } from 'services/db';
 
 initDatabase(FIREBASE_AUTH, DATABASE);
-
-const i18n = new TelegrafI18n({
-    defaultLanguage: 'en',
-    allowMissing: true,
-    useSession: true,
-    defaultLanguageOnMissing: true,
-});
-
-i18n.loadLocale('en', enLocale);
-i18n.loadLocale('ru', ruLocale);
 
 const bot = new Telegraf<TelegrafContext>(BOT_TOKEN);
 

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Telegraf, Markup } from 'telegraf';
+import i18n from 'i18n';
 
 import { TelegrafContext } from 'types';
 import { IS_DEV } from 'config';
@@ -113,6 +114,28 @@ async function sendResults(
 
     const propertyKeys = Object.keys(searchResults);
 
+    // Get cound of founded properties
+    let foundedProperties = 0;
+
+    propertyKeys.forEach((propertyKey) => {
+        if (!searchResults[propertyKey].isSubmitted) {
+            foundedProperties++;
+        }
+    });
+
+    if (telegramBot && foundedProperties > 0) {
+        const foundText = i18n.t('wizardSearch.foundCount', {
+            count: foundedProperties,
+        });
+
+        await telegramBot.telegram.sendMessage(chatId, foundText, {
+            parse_mode: 'Markdown',
+            disable_notification: true,
+        });
+
+        await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
     for (const propertyKey of propertyKeys) {
         const searchResult = searchResults[propertyKey];
 
@@ -120,7 +143,7 @@ async function sendResults(
             // Send to messenger and update last notification time
 
             if (telegramBot) {
-                console.log(`Send mesasge to chat ${chatId}/${searchId} in area ${area}`);
+                console.log(`Send message to chat ${chatId}/${searchId} in area ${area}`);
 
                 const message = formatTgMessage(area, searchResult);
                 const media = message.media.slice(0, 10);
@@ -129,7 +152,9 @@ async function sendResults(
 
                 try {
                     if (media.length) {
-                        await telegramBot.telegram.sendMediaGroup(chatId, media);
+                        await telegramBot.telegram.sendMediaGroup(chatId, media, {
+                            disable_notification: true,
+                        });
                     }
 
                     await new Promise((resolve) => setTimeout(resolve, 500));
@@ -138,6 +163,7 @@ async function sendResults(
                         reply_markup: {
                             inline_keyboard: [[Markup.button.url('↗️ Open', searchResult.openUrl)]],
                         },
+                        disable_notification: true,
                     });
                     submitted = true;
                 } catch (error) {
@@ -149,7 +175,9 @@ async function sendResults(
                             );
 
                             try {
-                                await telegramBot.telegram.sendPhoto(chatId, media[0].media);
+                                await telegramBot.telegram.sendPhoto(chatId, media[0].media, {
+                                    disable_notification: true,
+                                });
                             } catch (errorSendPhoto) {}
 
                             // Repeat send without photos
@@ -161,6 +189,7 @@ async function sendResults(
                                             [Markup.button.url('↗️ Open', searchResult.openUrl)],
                                         ],
                                     },
+                                    disable_notification: true,
                                 });
                                 submitted = true;
                             } catch (error) {
