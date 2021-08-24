@@ -181,7 +181,9 @@ async function sendResults(
                                 await telegramBot.telegram.sendPhoto(chatId, media[0].media, {
                                     disable_notification: true,
                                 });
-                            } catch (errorSendPhoto) {}
+                            } catch (errorSendPhoto) {
+                                console.log(`Error: ${errorSendPhoto.response?.description}`);
+                            }
 
                             // Repeat send without photos
                             // Delay 500ms
@@ -199,7 +201,7 @@ async function sendResults(
                                 });
                                 submitted = true;
                             } catch (error) {
-                                console.error(error);
+                                console.log(error);
                             }
                         } else {
                             // Chat not found
@@ -214,7 +216,7 @@ async function sendResults(
                         // Many request. Stop executing
                         break;
                     } else {
-                        console.error(error);
+                        console.log(error);
                     }
                 }
 
