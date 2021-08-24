@@ -168,7 +168,9 @@ async function sendResults(
                     });
                     submitted = true;
                 } catch (error) {
-                    console.log(`Property ${propertyKey}, Error: ${error.response?.description}`);
+                    console.log(
+                        `Property ${propertyKey}, Code ${error.response?.error_code}, Error: ${error.response?.description}`
+                    );
 
                     if (error.response?.error_code === 400) {
                         if (error.response?.description === 'Bad Request: group send failed') {
