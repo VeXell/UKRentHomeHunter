@@ -168,7 +168,7 @@ async function sendResults(
                     });
                     submitted = true;
                 } catch (error) {
-                    console.log(`Error: ${error.response?.description}`);
+                    console.log(`Property ${propertyKey}, Error: ${error.response?.description}`);
 
                     if (error.response?.error_code === 400) {
                         if (error.response?.description === 'Bad Request: group send failed') {
@@ -182,7 +182,9 @@ async function sendResults(
                                     disable_notification: true,
                                 });
                             } catch (errorSendPhoto) {
-                                console.log(`Error: ${errorSendPhoto.response?.description}`);
+                                console.log(
+                                    `Property ${propertyKey}, Error: ${errorSendPhoto.response?.description}`
+                                );
                             }
 
                             // Repeat send without photos
@@ -201,7 +203,7 @@ async function sendResults(
                                 });
                                 submitted = true;
                             } catch (error) {
-                                console.log(error);
+                                console.log(`Property ${propertyKey}, error ${error}`);
                             }
                         } else {
                             // Chat not found
@@ -216,7 +218,7 @@ async function sendResults(
                         // Many request. Stop executing
                         break;
                     } else {
-                        console.log(error);
+                        console.log(`Property ${propertyKey}, error ${error}`);
                     }
                 }
 
