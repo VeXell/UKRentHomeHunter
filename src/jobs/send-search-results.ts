@@ -157,6 +157,7 @@ async function sendResults(
                         });
                     }
 
+                    // Delay 500ms
                     await new Promise((resolve) => setTimeout(resolve, 500));
                     await telegramBot.telegram.sendMessage(chatId, message.text, {
                         parse_mode: 'Markdown',
@@ -167,6 +168,8 @@ async function sendResults(
                     });
                     submitted = true;
                 } catch (error) {
+                    console.log(`Error: ${error.response?.description}`);
+
                     if (error.response?.error_code === 400) {
                         if (error.response?.description === 'Bad Request: group send failed') {
                             // Something wrong with images
@@ -217,7 +220,7 @@ async function sendResults(
                     await setLastNotification(chatId, searchId, moment().utc().format());
                 }
 
-                // Add 2 sec delay
+                // Add 2.5 sec delay
                 await new Promise((resolve) => setTimeout(resolve, 2500));
             }
         }
