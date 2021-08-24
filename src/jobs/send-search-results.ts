@@ -173,7 +173,7 @@ async function sendResults(
                     if (error.response?.error_code === 400) {
                         if (error.response?.description === 'Bad Request: group send failed') {
                             // Something wrong with images
-                            console.error(
+                            console.log(
                                 `Someting wrong with data in ${chatId}/${searchId}/${propertyKey}`
                             );
 
