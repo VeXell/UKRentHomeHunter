@@ -168,11 +168,11 @@ async function sendResults(
                     });
                     submitted = true;
                 } catch (error) {
-                    console.log(
-                        `Property ${propertyKey}, Code ${error.response?.error_code}, Error: ${error.response?.description}`
-                    );
-
                     if (error.response?.error_code === 400) {
+                        console.log(
+                            `Property ${propertyKey}, Can not send photo group. Error: ${error.response?.description}`
+                        );
+
                         if (error.response?.description === 'Bad Request: group send failed') {
                             // Something wrong with images
                             console.log(
@@ -211,16 +211,18 @@ async function sendResults(
                             // Chat not found
                         }
                     } else if (error.response?.error_code === 403) {
-                        // Chat has been blocked
+                        console.log(`Chat has been blocked. Remove search.`);
                         await removeSearch(chatId, searchId);
                         await removeSearchResults(chatId, searchId);
 
                         break;
                     } else if (error.response?.error_code === 429) {
-                        // Many request. Stop executing
+                        console.log(`Many request. Stop executing and wait`);
                         break;
                     } else {
-                        console.log(`Property ${propertyKey}, error ${error}`);
+                        console.log(
+                            `Property ${propertyKey}, Code ${error.response?.error_code}, Error: ${error.response?.description}`
+                        );
                     }
                 }
 
