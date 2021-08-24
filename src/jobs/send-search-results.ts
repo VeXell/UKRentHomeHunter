@@ -185,7 +185,7 @@ async function sendResults(
                                 });
                             } catch (errorSendPhoto) {
                                 console.log(
-                                    `Property ${propertyKey}, Error: ${errorSendPhoto.response?.description}`
+                                    `Property ${propertyKey}, SendPhoto Error: ${errorSendPhoto.response?.description}`
                                 );
                             }
 
@@ -205,7 +205,7 @@ async function sendResults(
                                 });
                                 submitted = true;
                             } catch (error) {
-                                console.log(`Property ${propertyKey}, error ${error}`);
+                                console.log(`Property ${propertyKey}, SendMessage Error: ${error}`);
                             }
                         } else {
                             // Chat not found
