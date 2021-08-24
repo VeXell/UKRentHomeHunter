@@ -184,6 +184,9 @@ async function sendResults(
                             } catch (errorSendPhoto) {}
 
                             // Repeat send without photos
+                            // Delay 500ms
+                            await new Promise((resolve) => setTimeout(resolve, 500));
+
                             try {
                                 await telegramBot.telegram.sendMessage(chatId, message.text, {
                                     parse_mode: 'Markdown',
