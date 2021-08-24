@@ -173,7 +173,7 @@ async function sendResults(
                             `Property ${propertyKey}, Can not send photo group. Error: ${error.response?.description}`
                         );
 
-                        if (error.response?.description === 'Bad Request: group send failed') {
+                        if (error.response?.description.indexOf('Bad Request') !== -1) {
                             // Something wrong with images
                             console.log(
                                 `Someting wrong with data in ${chatId}/${searchId}/${propertyKey}`
