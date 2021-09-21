@@ -35,7 +35,7 @@ export function addSearch(searchRequest: ISearchRequestInput): Promise<ISearchRe
         ...searchRequest,
         ...{
             createdAt: moment.utc().format(),
-            expiredAt: moment.utc().add(30, 'days').format(),
+            expiredAt: moment.utc().add(60, 'days').format(),
             lastSearchAt: null,
         },
     });
