@@ -134,6 +134,10 @@ async function sendResults(
                 disable_notification: true,
             });
         } catch (error) {
+            console.log(
+                `Error ${error.response?.error_code}, Error: ${error.response?.description}`
+            );
+
             if (error && error.response?.error_code === 403) {
                 console.log(`Chat has been blocked. Remove search.`);
                 await removeSearch(chatId, searchId);
