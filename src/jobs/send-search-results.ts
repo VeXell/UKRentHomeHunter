@@ -128,10 +128,20 @@ async function sendResults(
             count: foundedProperties,
         });
 
-        await telegramBot.telegram.sendMessage(chatId, foundText, {
-            parse_mode: 'Markdown',
-            disable_notification: true,
-        });
+        try {
+            await telegramBot.telegram.sendMessage(chatId, foundText, {
+                parse_mode: 'Markdown',
+                disable_notification: true,
+            });
+        } catch (error) {
+            if (error && error.response?.error_code === 403) {
+                console.log(`Chat has been blocked. Remove search.`);
+                await removeSearch(chatId, searchId);
+                await removeSearchResults(chatId, searchId);
+
+                return;
+            }
+        }
 
         await new Promise((resolve) => setTimeout(resolve, 300));
     }
