@@ -90,7 +90,7 @@ async function processResults(
 
                 if (allSearches && allSearches[chatId] && allSearches[chatId][searchId]) {
                     const area = allSearches[chatId][searchId].area;
-                    sendResults(Number(chatId), searchId, searchResults, area);
+                    await sendResults(Number(chatId), searchId, searchResults, area);
                 } else {
                     console.error(`Can not get area in allSearches ${chatId}/${searchId}`);
                 }
@@ -133,7 +133,7 @@ async function sendResults(
                 parse_mode: 'Markdown',
                 disable_notification: true,
             });
-        } catch (error) {
+        } catch (error: any) {
             console.log(
                 `Error ${error.response?.error_code}, Error: ${error.response?.description}`
             );
@@ -181,7 +181,7 @@ async function sendResults(
                         disable_notification: true,
                     });
                     submitted = true;
-                } catch (error) {
+                } catch (error: any) {
                     if (error.response?.error_code === 400) {
                         console.log(
                             `Property ${propertyKey}, Can not send photo group. Error: ${error.response?.description}`
@@ -197,7 +197,7 @@ async function sendResults(
                                 await telegramBot.telegram.sendPhoto(chatId, media[0].media, {
                                     disable_notification: true,
                                 });
-                            } catch (errorSendPhoto) {
+                            } catch (errorSendPhoto: any) {
                                 console.log(
                                     `Property ${propertyKey}, SendPhoto Error: ${errorSendPhoto.response?.description}`
                                 );
