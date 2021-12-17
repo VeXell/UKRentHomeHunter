@@ -48,7 +48,7 @@ I have some commands which can help you:
         },
         foundResults: `🔍 👉 With your search request i found *\${count}* 🏘 properties. Would you like have a look?\nNext updates will be tomorrow.`,
         notFoundResults: `🔍 ℹ️ At this moment i can not find any 🏘 properties with your request. I will try to send new updated tomorrow.`,
-        foundCount: `👋  Hi, i found *\${count}* 🏘 properties with your search.`,
+        foundCount: `👋  Hi, i found *\${count}* 🏘 properties with your search in \${area}.`,
     },
     share: {
         intro: 'ℹ️ Share message below to your contacts',

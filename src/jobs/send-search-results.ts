@@ -126,6 +126,7 @@ async function sendResults(
     if (telegramBot && foundedProperties > 0) {
         const foundText = i18n.t('en', 'wizardSearch.foundCount', {
             count: foundedProperties,
+            area,
         });
 
         try {
